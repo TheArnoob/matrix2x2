@@ -1,4 +1,4 @@
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct Matrix2x2 {
     /// Contains the matrix elements
     /// a00 -> data[0]
@@ -34,27 +34,38 @@ impl Matrix2x2 {
         );
         added_matrix
     }
-    pub fn sub(&self, other: &Matrix2x2) -> Matrix2x2{
+    pub fn sub(&self, other: &Matrix2x2) -> Matrix2x2 {
         let sub_matrix = Matrix2x2::new(
             self.data[0] - other.data[0],
-            self.data[1] - other.data[1] ,
+            self.data[1] - other.data[1],
             self.data[2] - other.data[2],
             self.data[3] - other.data[3],
-);
-    sub_matrix
+        );
+        sub_matrix
     }
-    pub fn mul(&self, other: &Matrix2x2) -> Matrix2x2{
+    pub fn mul(&self, other: &Matrix2x2) -> Matrix2x2 {
         let c00 = self.data[0] * other.data[0] + self.data[1] * other.data[2];
         let c01 = self.data[0] * other.data[1] + self.data[1] * other.data[3];
         let c10 = self.data[2] * other.data[0] + self.data[3] * other.data[2];
         let c11 = self.data[2] * other.data[1] + self.data[3] * other.data[3];
-        let mul_matrix = Matrix2x2::new(
-            c00,
-            c01,
-            c10,
-            c11,
-        );
+        let mul_matrix = Matrix2x2::new(c00, c01, c10, c11);
         mul_matrix
+    }
+
+    pub fn det(&self) -> f64 {
+        let determinent = self.data[0] * self.data[3] - self.data[1] * self.data[2];
+        determinent
+    }
+
+    pub fn inv(&self) -> Matrix2x2 {
+        let inverse: f64 = 1. / self.det();
+        let inv_matrix = Matrix2x2::new(
+            inverse * self.data[3],
+            inverse * -self.data[1],
+            inverse * -self.data[2],
+            inverse * self.data[0],
+        );
+        inv_matrix
     }
 }
 
