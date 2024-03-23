@@ -1,4 +1,4 @@
-#[derive(Debug, Clone)]
+#[derive(Debug, PartialEq)]
 pub struct Matrix2x2 {
     /// Contains the matrix elements
     /// a00 -> data[0]
@@ -76,5 +76,44 @@ impl std::fmt::Display for Matrix2x2 {
             self.data[0], self.data[1], self.data[2], self.data[3]
         );
         to_be_printed.fmt(f)
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn matrix_add() {
+        use crate::Matrix2x2;
+        let mat_a = Matrix2x2::new(5., 5., 0., 3.);
+        let mat_b = Matrix2x2::new(4., 5., 6., 7.);
+        let mat_c = Matrix2x2::new(9., 10., 6., 10.);
+        assert_eq!(mat_a.add(&mat_b), mat_c)
+    }
+
+    #[test]
+    fn matrix_sub() {
+        use crate::Matrix2x2;
+        let mat_a = Matrix2x2::new(5., 5., 0., 3.);
+        let mat_b = Matrix2x2::new(4., 5., 6., 7.);
+        let mat_c = Matrix2x2::new(1., 0., -6., -4.);
+        assert_eq!(mat_a.sub(&mat_b), mat_c)
+    }
+    #[test]
+    fn matrix_mul() {
+        use crate::Matrix2x2;
+        let mat_a = Matrix2x2::new(5., 5., 0., 3.);
+        let mat_b = Matrix2x2::new(4., 5., 6., 7.);
+        let mat_c = Matrix2x2::new(50., 60., 18., 21.);
+        assert_eq!(mat_a.mul(&mat_b), mat_c)
+    }
+    #[test]
+    fn matrix_det() {
+        use crate::Matrix2x2;
+        let mat_a = Matrix2x2::new(5., 5., 0., 3.);
+        let mat_b = Matrix2x2::new(4., 5., 6., 7.);
+        let mat_c = Matrix2x2::new(9., 11., 9., 12.);
+        assert_eq!(mat_a.det(), 15.);
+        assert_eq!(mat_b.det(), -2.);
+        assert_eq!(mat_c.det(), 9.);
     }
 }
